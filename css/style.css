@@ -1,136 +1,275 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Titillium Web', serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 #map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 #info {
-    z-index: 1000;
-    position: absolute;
-    width: 500px;
-    top: 1%;
-    bottom: 1%;
-    left: .5%;
-    padding: 40px 15px 90px 15px;
-    background: #343a40;
-    color: white;
-
+  z-index: 1000;
+  position: absolute;
+  width: 500px;
+  top: 1%;
+  bottom: 1%;
+  left: 0.5%;
+  padding: 24px 16px 90px 16px;
+  background: #343a40;
+  color: white;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
+#title {
+  font-size: 28px;
+  font-family: 'Oswald', sans-serif;
+  margin-bottom: 12px;
+}
 
-/* social media icons */
+#desc {
+  text-align: center;
+  color: lightgray;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+#summary-panel {
+  margin-bottom: 10px;
+}
+
+#lot-count {
+  margin: 8px 0 0 0;
+  text-align: center;
+  color: orange;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+#count-label {
+  text-align: center;
+  color: lightgray;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+#parking-chart {
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+#detail-panel {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+.panel-heading {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.detail-type {
+  font-size: 14px;
+  font-weight: 700;
+  color: #9bd3ff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #f1f3f5;
+}
+
+.detail-row {
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+#reset,
+#clear-selection {
+  display: inline-block;
+  margin-top: 0;
+  padding: 8px 12px;
+  color: white;
+  background: #495057;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#reset:hover,
+#clear-selection:hover {
+  background: #5c6770;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  font-size: 13px;
+  line-height: 150%;
+  color: lightgray;
+}
+
 #info a {
-    color: lightgray;
+  color: lightgray;
 }
 
 #info a:hover {
-    color: white;
-    opacity: 0.3;
+  color: white;
+  opacity: 0.8;
 }
 
-
-#title {
-    font-size: 25px;
-    font-family: 'Oswald', sans-serif;
+#layer-control {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: white;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-family: 'Open Sans', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  line-height: 1.9;
+  color: #222;
+  min-width: 190px;
 }
 
-/* social media icons */
-#title span {
-    font-size: 14px;
-    float: right;
-    margin-right: 10px;
+#layer-control label {
+  display: block;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-
-#desc {
-    text-align: center;
-    color: lightgray;
-    font-size: medium;
-    font-weight: bold;
-    margin-bottom: 0px;
+#legend,
+#traffic-legend,
+#rpz-legend,
+#size-legend {
+  position: absolute;
+  right: 20px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-family: 'Open Sans', sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: #222;
+  z-index: 999;
 }
 
-#UMB-count {
-    margin: 0;
-    text-align: center;
-    color: orange;
-    font-size: 50px;
-}
-
-#UMB-chart {
-    top: 20px;
-}
-
-
-#footer {
-    position: absolute;
-    bottom: 0px;
-    margin-bottom: 20px;
-    margin-right: 10px;
-    font-size: 13px;
-    line-height: 150%;
-    color: lightgray;
-}
-
-/* the layout of the legend panel */
 #legend {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 180px;  /* wider to fit text */
-    background: #fff;
-    margin-right: 20px;
-    margin-bottom: 40px;
-    padding: 10px 20px 10px 10px;
-    border-radius: 3px;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
+  bottom: 30px;
+  width: 180px;
 }
 
-/* each line for a break */
+#traffic-legend {
+  bottom: 250px;
+  width: 190px;
+}
+
+#rpz-legend {
+  bottom: 445px;
+  width: 190px;
+}
+
+#size-legend {
+  bottom: 545px;
+  width: 150px;
+}
+
 .break {
-    position: relative;
-    margin: 0px;
-    padding: 0px;
+  margin: 6px 0;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-/* basic style for a dot/circle */
 .dot {
-    display: inline-block;
-    margin-top: 5px;
-    border-radius: 50%;
-    opacity: 0.6;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  opacity: 0.8;
+  vertical-align: middle;
 }
 
-/* the label for the dot */
-.dot-label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-style: italic;
+.line-swatch {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
-/* bar chart */
+.rpz-box {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: rgba(168, 85, 247, 0.35);
+  border: 2px solid #c084fc;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.size-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.size-circle {
+  border-radius: 50%;
+  background: rgba(65, 182, 196, 0.7);
+  border: 1px solid white;
+  flex-shrink: 0;
+}
+
+.mapboxgl-popup-content {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
 text {
-fill: gray
+  fill: gray;
 }
 
 .tick line {
-stroke: gray;
+  stroke: gray;
 }
 
 .c3-axis path {
-stroke: gray;
-}
-
-.name, .value {
-background-color: black;
-color: black
+  stroke: gray;
 }
