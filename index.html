@@ -5,7 +5,6 @@
   <title>Seattle Parking and Traffic Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 
@@ -21,10 +20,10 @@
 </head>
 <body>
   <div id="info">
-    <div id="title">Seattle Parking Dashboard</div>
+    <div id="title">Seattle Parking and Traffic Dashboard</div>
 
     <div id="desc">
-      Explore public garages, traffic flow, and restricted parking zones in Seattle.
+      Explore public garages, surface lots, traffic flow, and restricted parking zones in Seattle.
     </div>
 
     <div id="summary-panel">
@@ -57,9 +56,16 @@
 
   <div id="layer-control">
     <strong>Display Layers</strong>
-    <label><input type="checkbox" id="toggle-parking" checked> Parking Lots</label>
+    <label><input type="checkbox" id="toggle-parking" checked> Parking Facilities</label>
     <label><input type="checkbox" id="toggle-traffic" checked> Traffic Flow</label>
     <label><input type="checkbox" id="toggle-rpz" checked> Restricted Parking Zones</label>
+  </div>
+
+  <div id="facility-legend">
+    <strong>Facility Type</strong>
+    <div class="break"><span class="dot" style="background:#4dabf7;"></span>Garage</div>
+    <div class="break"><span class="dot" style="background:#ff922b;"></span>Surface Lot</div>
+    <div class="break"><span class="dot" style="background:#ced4da;"></span>Other / Unknown</div>
   </div>
 
   <div id="legend">

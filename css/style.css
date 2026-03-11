@@ -162,7 +162,7 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   line-height: 1.9;
   color: #222;
-  min-width: 190px;
+  min-width: 200px;
 }
 
 #layer-control label {
@@ -171,6 +171,7 @@ body {
   cursor: pointer;
 }
 
+#facility-legend,
 #legend,
 #traffic-legend,
 #rpz-legend,
@@ -186,23 +187,28 @@ body {
   z-index: 999;
 }
 
-#legend {
+#facility-legend {
   bottom: 30px;
+  width: 175px;
+}
+
+#legend {
+  bottom: 170px;
   width: 180px;
 }
 
 #traffic-legend {
-  bottom: 250px;
+  bottom: 390px;
   width: 190px;
 }
 
 #rpz-legend {
-  bottom: 445px;
+  bottom: 585px;
   width: 190px;
 }
 
 #size-legend {
-  bottom: 545px;
+  bottom: 685px;
   width: 150px;
 }
 
@@ -218,7 +224,7 @@ body {
   height: 12px;
   border-radius: 50%;
   margin-right: 8px;
-  opacity: 0.8;
+  opacity: 0.9;
   vertical-align: middle;
 }
 

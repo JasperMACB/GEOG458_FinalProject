@@ -54,17 +54,21 @@ async function loadData() {
         },
         'circle-color': [
           'match',
-          ['get', 'RTE_1HR'],
-          ['3', '4'], 'rgb(161,218,180)',
-          ['4.9', '5'], 'rgb(65,182,196)',
-          ['6', '7'], 'rgb(34,94,168)',
-          ['8', '9', '10'], 'rgb(8,37,103)',
-          'Permit only', 'rgb(189,0,38)',
-          'rgb(180,180,180)'
+          ['get', 'FAC_TYPE'],
+          'GARAGE', '#4dabf7',
+          'SURFACE LOT', '#ff922b',
+          '#ced4da'
         ],
-        'circle-stroke-color': 'white',
-        'circle-stroke-width': 1,
-        'circle-opacity': 0.7
+        'circle-stroke-color': [
+          'case',
+          ['==', ['get', 'FAC_TYPE'], 'GARAGE'],
+          '#d0ebff',
+          ['==', ['get', 'FAC_TYPE'], 'SURFACE LOT'],
+          '#ffe8cc',
+          '#ffffff'
+        ],
+        'circle-stroke-width': 1.2,
+        'circle-opacity': 0.82
       }
     }, 'waterway-label');
 
@@ -141,10 +145,11 @@ function bindInteractionEvents(parkingLots) {
     new mapboxgl.Popup()
       .setLngLat(feature.geometry.coordinates)
       .setHTML(`
-        <strong>${props.DEA_FACILITY_NAME || 'Unknown Lot'}</strong><br>
-        <strong>Address:</strong> ${props.DEA_FACILITY_ADDRESS || 'N/A'}<br>
+        <strong>${escapeHtml(props.DEA_FACILITY_NAME || 'Unknown Facility')}</strong><br>
+        <strong>Facility Type:</strong> ${escapeHtml(formatFacilityType(props.FAC_TYPE))}<br>
+        <strong>Address:</strong> ${escapeHtml(props.DEA_FACILITY_ADDRESS || 'N/A')}<br>
         <strong>Stalls:</strong> ${formatValue(props.DEA_STALLS)}<br>
-        <strong>Rate/hr:</strong> ${props.RTE_1HR ? '$' + props.RTE_1HR : 'N/A'}
+        <strong>Rate/hr:</strong> ${props.RTE_1HR ? '$' + escapeHtml(props.RTE_1HR) : 'N/A'}
       `)
       .addTo(map);
 
@@ -162,7 +167,7 @@ function bindInteractionEvents(parkingLots) {
     new mapboxgl.Popup()
       .setLngLat(e.lngLat)
       .setHTML(`
-        <strong>${props.STNAME_ORD || 'Street segment'}</strong><br>
+        <strong>${escapeHtml(props.STNAME_ORD || 'Street segment')}</strong><br>
         <strong>Daily Traffic (AWDT):</strong> ${formatNumber(props.AWDT)}<br>
         <strong>AM Peak:</strong> ${formatNumber(props.AMPK)}<br>
         <strong>PM Peak:</strong> ${formatNumber(props.PMPK)}
@@ -184,11 +189,11 @@ function bindInteractionEvents(parkingLots) {
     new mapboxgl.Popup()
       .setLngLat(center)
       .setHTML(`
-        <strong>${props.NAME || 'Restricted Parking Zone'}</strong><br>
-        <strong>Zone:</strong> ${props.RPZ_ZONE || 'N/A'}<br>
-        <strong>Subsidies:</strong> ${props.SUBSIDIES || 'N/A'}<br>
-        <strong>Renewal:</strong> ${props.RENEW || 'N/A'}<br>
-        <strong>In Effect:</strong> ${props.INEFFECT || 'N/A'}
+        <strong>${escapeHtml(props.NAME || 'Restricted Parking Zone')}</strong><br>
+        <strong>Zone:</strong> ${escapeHtml(props.RPZ_ZONE || 'N/A')}<br>
+        <strong>Subsidies:</strong> ${escapeHtml(props.SUBSIDIES || 'N/A')}<br>
+        <strong>Renewal:</strong> ${escapeHtml(props.RENEW || 'N/A')}<br>
+        <strong>In Effect:</strong> ${escapeHtml(props.INEFFECT || 'N/A')}
       `)
       .addTo(map);
 
@@ -280,15 +285,16 @@ function updateDashboardSummary(parkingLots) {
 }
 
 function showParkingDetails(props) {
-  detailTypeEl.textContent = 'Parking Lot';
+  detailTypeEl.textContent = 'Parking Facility';
 
   detailContentEl.innerHTML = `
-    <div class="detail-row"><span class="detail-label">Facility:</span> ${escapeHtml(props.DEA_FACILITY_NAME || 'Unknown Lot')}</div>
+    <div class="detail-row"><span class="detail-label">Facility:</span> ${escapeHtml(props.DEA_FACILITY_NAME || 'Unknown Facility')}</div>
+    <div class="detail-row"><span class="detail-label">Facility Type:</span> ${escapeHtml(formatFacilityType(props.FAC_TYPE))}</div>
     <div class="detail-row"><span class="detail-label">Address:</span> ${escapeHtml(props.DEA_FACILITY_ADDRESS || 'N/A')}</div>
     <div class="detail-row"><span class="detail-label">Total Stalls:</span> ${formatValue(props.DEA_STALLS)}</div>
     <div class="detail-row"><span class="detail-label">Hourly Rate:</span> ${props.RTE_1HR ? '$' + escapeHtml(props.RTE_1HR) : 'N/A'}</div>
-    <div class="detail-row"><span class="detail-label">Type:</span> Public Garage / Parking Lot</div>
-    <div class="detail-row"><span class="detail-label">Interaction:</span> Map zoomed to selected parking location.</div>
+    <div class="detail-row"><span class="detail-label">Visual Distinction:</span> ${escapeHtml(getFacilityColorLabel(props.FAC_TYPE))}</div>
+    <div class="detail-row"><span class="detail-label">Interaction:</span> Map zoomed to selected parking facility.</div>
   `;
 }
 
@@ -375,7 +381,6 @@ function fitMapToBounds(bounds, padding = 50) {
 function getLineBounds(feature) {
   const bounds = new mapboxgl.LngLatBounds();
   const coords = feature.geometry.coordinates;
-
   coords.forEach((coord) => bounds.extend(coord));
   return bounds;
 }
@@ -398,6 +403,18 @@ function getPolygonBounds(feature) {
 function getFeatureCenter(feature) {
   const bounds = getPolygonBounds(feature);
   return bounds.getCenter();
+}
+
+function formatFacilityType(value) {
+  if (value === 'GARAGE') return 'Garage';
+  if (value === 'SURFACE LOT') return 'Surface Lot';
+  return 'Other / Unknown';
+}
+
+function getFacilityColorLabel(value) {
+  if (value === 'GARAGE') return 'Blue symbol = Garage';
+  if (value === 'SURFACE LOT') return 'Orange symbol = Surface Lot';
+  return 'Gray symbol = Other / Unknown';
 }
 
 function formatNumber(value) {
