@@ -2,6 +2,15 @@
 **GEOG 458 Final Project**
 by Tommy Tsui, Jasper Crossley Blasio, Jiaxuan Su, Ryan V Contreras
 
+##### AI Disclosure:
+AI was only used for help debugging html, we did not use AI to write or complete any components where AI use is prohibited. If AI was used for debugging or development, we are able to explain the relevant code and decisions.
+
+---
+
+## [Link to the Map](https://jaspermacb.github.io/GEOG458_FinalProject/) 
+
+---
+
 ## Overview
 This project is an interactive geospatial dashboard that visualizes parking facilities, traffic flow, and residential parking restrictions in Seattle. The goal is to help users explore how parking supply, road congestion, and regulatory policies interact across the city.
 
@@ -172,6 +181,22 @@ Potential improvements for the project include:
 - Calculating **average parking cost per neighborhood**
 - Integrating public transit accessibility data
 - Adding commute-time analysis
+
+---
+
+## About US
+
+The members of Group 19 are:
+
+- **Tommy Tsui**
+- **Jasper Crossley Blasio**
+- **Jiaxuan Su**
+- **Ryan V Contreras**
+
+Our instructors are:
+
+- **Professor Bo Zhao**
+- **TA Alex Kirchmeier**
 
 ---
 
